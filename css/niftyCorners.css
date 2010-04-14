@@ -1,0 +1,16 @@
+.rtop,.rbottom{display:block}
+.rtop *,.rbottom *{display:block;height: 1px;overflow: hidden}
+.r1{margin: 0 12px}
+.r2{margin: 0 9px}
+.r3{margin: 0 7px}
+.r4{margin: 0 6px}
+.r5{margin: 0 5px}
+.r6{margin: 0 4px}
+.r7{margin: 0 3px}
+.r8{margin: 0 2px}
+.r9{margin: 0 2px}
+.r10{margin: 0 1px}
+.r11{margin: 0 1px;height: 2px}
+
+.rs1{margin: 0 2px}
+.rs2{margin: 0 1px}
