@@ -13,19 +13,19 @@ $twitterObj->setToken($token->oauth_token, $token->oauth_token_secret);
 $twitterInfo= $twitterObj->get_accountVerify_credentials();
 $twitterInfo->response;
 echo "Your twitter username is {$twitterInfo->screen_name} and your profile picture is <img src=\"{$twitterInfo->profile_image_url}\"> twitter follower {$twitterInfo->followers_count}";
-
-echo "<br />POST<br />";
+insertAccount();
+/*echo "<br />POST<br />";
 var_dump($_POST);
 echo "<br />GET<br />";
 var_dump($_GET);
 echo "<br />TwitterInfo<br />";
 print_r(twitterInfo);
 $tok = file_put_contents('tok', $token->oauth_token);
-$sec = file_put_contents('sec', $token->oauth_token_secret);
+$sec = file_put_contents('sec', $token->oauth_token_secret);*/
 
 function checkAccount() {
 	if($db = new MySQLDB) {
-		$query = "SELECT * FROM tblAccounts WHERE a_T_id=".$twitterInfo->id;
+		$query = "SELECT * FROM tblAccounts WHERE aTwitterID=".$twitterInfo->id;
 		$db->begin();
 		if($result = mysql_query($query)) {
 			if(mysql_num_rows($result) == 1) {
@@ -37,6 +37,20 @@ function checkAccount() {
 			}
 		} else {
 			$db->logEvent("checkAccount","admin","Query Error: ".mysql_error()ot just);
+		}
+	}
+}
+
+function insertAccount() {
+	if($db = new MySQLDB) {
+		$query = "INSERT tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','".$twitterInfo->id."')";
+		$db->begin();
+		if(mysql_query($query)) {
+			$db->commit();
+			return true;
+		} else {
+			$db->rollback();
+			return false;
 		}
 	}
 }
