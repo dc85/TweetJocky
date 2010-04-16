@@ -57,7 +57,7 @@ function insertAccount($twitterInfo) {
 
 function updateAccount($twitterInfo) {
 	if($db = new MySQLDB) {
-		$query = "INSERT tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}')";
+		$query = "UPDATE tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}')";
 		$db->begin();
 		if(mysql_query($query)) {
 			$db->commit();
