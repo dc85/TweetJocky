@@ -12,8 +12,8 @@ $token = $twitterObj->getAccessToken();
 $twitterObj->setToken($token->oauth_token, $token->oauth_token_secret);
 $twitterInfo= $twitterObj->get_accountVerify_credentials();
 $twitterInfo->response;
-echo "Your twitter username is {$twitterInfo->screen_name} and your profile picture is <img src=\"{$twitterInfo->profile_image_url}\"> twitter follower {$twitterInfo->followers_count}";
-insertAccount();
+echo "Your twitter username is {$twitterInfo->screen_name} and your profile picture is <img src=\"{$twitterInfo->profile_image_url}\"> twitter follower {$twitterInfo->id}";
+insertAccount($twitterInfo);
 /*echo "<br />POST<br />";
 var_dump($_POST);
 echo "<br />GET<br />";
@@ -36,14 +36,28 @@ function checkAccount() {
 				$db->logEvent("checkAccount","$twitterInfo->id","Duplicate entries in tblAccount");
 			}
 		} else {
-			$db->logEvent("checkAccount","admin","Query Error: ".mysql_error()ot just);
+			$db->logEvent("checkAccount","admin","Query Error: ".mysql_error());
 		}
 	}
 }
 
-function insertAccount() {
+function insertAccount($twitterInfo) {
 	if($db = new MySQLDB) {
-		$query = "INSERT tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','".$twitterInfo->id."')";
+		$query = "INSERT tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}')";
+		$db->begin();
+		if(mysql_query($query)) {
+			$db->commit();
+			return true;
+		} else {
+			$db->rollback();
+			return false;
+		}
+	}
+}
+
+function updateAccount($twitterInfo) {
+	if($db = new MySQLDB) {
+		$query = "INSERT tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}')";
 		$db->begin();
 		if(mysql_query($query)) {
 			$db->commit();
