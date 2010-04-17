@@ -13,7 +13,11 @@ $twitterObj->setToken($token->oauth_token, $token->oauth_token_secret);
 $twitterInfo= $twitterObj->get_accountVerify_credentials();
 $twitterInfo->response;
 echo "Your twitter username is {$twitterInfo->screen_name} and your profile picture is <img src=\"{$twitterInfo->profile_image_url}\"> twitter follower {$twitterInfo->id}";
-insertAccount($twitterInfo);
+if(!checkAccount()) {
+	insertAccount();
+} else {
+	updateAccount();	
+}
 /*echo "<br />POST<br />";
 var_dump($_POST);
 echo "<br />GET<br />";
