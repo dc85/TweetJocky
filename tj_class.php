@@ -94,6 +94,16 @@ class TJ_ACCOUNT {
 			}
 	   }
    }
+   
+	function init($twitterInfo,$token) {
+		//var $tj_account_id;
+		//var $tj_cadmus_api_key;
+		$this->tj_tw_token = token;
+		$this->tj_tw_id = $twitterInfo->id;
+		$this->tj_avatar = $twitterInfo->profile_image_url;
+		$this->tj_tw_name = $twitterInfo->screen_name;
+		$this->tj_tw_screenname = $twitterInfo->screen_name;
+   }
 }
 
 ?>

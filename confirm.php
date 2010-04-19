@@ -17,8 +17,8 @@ echo "Your twitter username is {$twitterInfo->screen_name} and your profile pict
 
 $tj = new TJ_ACCOUNT();
 
-try($tj->init($twitterInfo)) {
-	
+try {
+	$tj->init($twitterInfo);
 } catch(e) {
 	echo "Error initiating TJ account <br />";
 	$tj->logEvent("init TJ","$twitterInfo->id","Error initiating the tj account");
