@@ -3,7 +3,8 @@ include 'EpiCurl.php';
 include 'EpiOAuth.php';
 include 'EpiTwitter.php';
 include 'secret.php';
-include 'mysqldb.php';
+include 'tj_class.php';
+include 'tj_db.php';
 
 $twitterObj = new EpiTwitter($consumer_key, $consumer_secret);
 
@@ -13,10 +14,20 @@ $twitterObj->setToken($token->oauth_token, $token->oauth_token_secret);
 $twitterInfo= $twitterObj->get_accountVerify_credentials();
 $twitterInfo->response;
 echo "Your twitter username is {$twitterInfo->screen_name} and your profile picture is <img src=\"{$twitterInfo->profile_image_url}\"> twitter follower {$twitterInfo->id}";
-if(!checkAccount()) {
-	insertAccount();
+
+$tj = new TJ_ACCOUNT();
+
+try($tj->init($twitterInfo)) {
+	
+} catch(e) {
+	echo "Error initiating TJ account <br />";
+	$tj->logEvent("init TJ","$twitterInfo->id","Error initiating the tj account");
+}
+
+if($tj->checkAccount($twitterInfo)) {
+	$tj->insertAccount($twitterInfo);
 } else {
-	updateAccount();	
+	$tj->updateAccount($twitterInfo);	
 }
 /*echo "<br />POST<br />";
 var_dump($_POST);
@@ -27,50 +38,5 @@ print_r(twitterInfo);
 $tok = file_put_contents('tok', $token->oauth_token);
 $sec = file_put_contents('sec', $token->oauth_token_secret);*/
 
-function checkAccount() {
-	if($db = new MySQLDB) {
-		$query = "SELECT * FROM tblAccounts WHERE aTwitterID=".$twitterInfo->id;
-		$db->begin();
-		if($result = mysql_query($query)) {
-			if(mysql_num_rows($result) == 1) {
-				return true;
-			} else if(mysql_num_rows($result) <= 0) {
-				return false;
-			} else {
-				$db->logEvent("checkAccount","$twitterInfo->id","Duplicate entries in tblAccount");
-			}
-		} else {
-			$db->logEvent("checkAccount","admin","Query Error: ".mysql_error());
-		}
-	}
-}
-
-function insertAccount($twitterInfo) {
-	if($db = new MySQLDB) {
-		$query = "INSERT tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}')";
-		$db->begin();
-		if(mysql_query($query)) {
-			$db->commit();
-			return true;
-		} else {
-			$db->rollback();
-			return false;
-		}
-	}
-}
-
-function updateAccount($twitterInfo) {
-	if($db = new MySQLDB) {
-		$query = "UPDATE tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}')";
-		$db->begin();
-		if(mysql_query($query)) {
-			$db->commit();
-			return true;
-		} else {
-			$db->rollback();
-			return false;
-		}
-	}
-}
 ?> 
 

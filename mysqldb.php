@@ -43,21 +43,6 @@ class MySQLDB
          return true;
       }
    }
-   
-   function logEvent($type, $id, $message) {
-	   if($db = new MySQLDB) {
-			$db->begin();
-			$query = "INSERT INTO tblLog(lType,l_T_id,lMessage) VALUES('$type','$id','$message');";
-			if(mysql_query($query)) {
-				$db->commit();
-				return 1;
-			} else {
-				$db->rollback();
-				logEvent($type, $id, $message);
-				return 0;
-			}
-	   }
-   }
 
 };
 ?>
