@@ -151,3 +151,6 @@
 		top:-210px;
 		left:50%;
 	}
+	#home, #settings, #faq {
+		display:none;
+	}
