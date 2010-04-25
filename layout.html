@@ -4,14 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Tweet Jockey</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="css/jquery.tabs.css">
-<link rel="stylesheet" type="text/css" href="css/jquery.tabs-ie.css">
 <link rel="stylesheet" type="text/css" href="css/niftyCorners.css">
 <link rel="stylesheet" type="text/css" href="css/niftyPrint.css" media="print">
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
 <script type="text/javascript" src="js/nifty.js"></script>
-<script type="text/javascript" src="js/jquery.tabs.js"></script>
-<script type="text/javascript" src="js/jquery.history_remote.pack.js"></script>
 
 <script type="text/javascript"> 
 $(document).ready(function() {
@@ -19,10 +15,14 @@ if(!NiftyCheck())
     return;
 	RoundedTop("div#header","#FFF","#8EC1DA");
 	RoundedBottom("div#footer","#FFF","#8EC1DA");
-	$(".nav").tabs();
 });
-</script>
 
+</script>
+<script type="text/javascript">
+function show(div){
+	document.getElementById(div).style.visibility="visible";
+}
+</script>
 </head>
 <body>
 <div class="outer"> 
@@ -35,14 +35,14 @@ if(!NiftyCheck())
                     </div>
                     <div class="colmask fullpage">
                     	<div class="fullpage col1">
-                        	<div class="tab" id="home">
+                        	<div id="home">
                             	this is home
                             </div>
-                            <div class="tab" id="settings">
+                            <div id="settings">
                             	<input type="checkbox" id="set_default" />
                                 <label for="set_default"> Just give me the default</label>
                             </div>
-                            <div class="tab" id="faq">
+                            <div id="faq">
                             	this is faq
                             </div>
                         </div>
@@ -79,9 +79,9 @@ if(!NiftyCheck())
                 <div class="col2">
                 	<div class="nav">
 						<ul>
-     						<li><a href="#home" title="tab">Home</a></li>
-     						<li><a href="#settings" title="tab">Settings</a></li>
-      						<li><a href="#faq" title="tab">FAQ</a></li>
+     						<li><a href="#" onclick="show('home');">Home</a></li>
+     						<li><a href="#" onclick="show('settings');">Settings</a></li>
+      						<li><a href="#" onclick="show('faq');">FAQ</a></li>
 						</ul>
                     </div>
                 </div>
