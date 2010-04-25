@@ -3,8 +3,10 @@ include 'EpiCurl.php';
 include 'EpiOAuth.php';
 include 'EpiTwitter.php';
 include 'secret.php';
-include 'tj_class.php';
 include 'mysqldb.php';
+include 'tj_class.php';
+include 'confirm.php';
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -36,6 +38,18 @@ if(!NiftyCheck())
 <div id="container">
   <div class="header"><img style="z-index: 1000" src="images/logo.png" alt="Tweet Jocky"/></div>
   <div class="body" style="">
+  <div class="account_info">
+  	<table>
+    	<tr>
+        	<td><table><tr><td><img src="<?php echo $tj->tj_avatar;?>" /></td></tr></table></td>
+            <td>
+            	<table>
+                	<tr><td><?php echo $tj->tj_tw_name;?></td></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+  </div>
     <ul>
       <li><a href="#home"><span>Home</span></a></li>
       <li><a href="#settings"><span>Settings</span></a></li>

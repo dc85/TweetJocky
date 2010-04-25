@@ -19,6 +19,12 @@ div.body {
 	padding: 25px 0;
 }
 
+div.account_info {
+	margin: 5px;
+	border: 1px solid red;
+	background: none;
+}
+
 div.header {
 	width: 100%;
 	background: #8EC1DA;	
