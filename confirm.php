@@ -4,7 +4,7 @@ include 'EpiOAuth.php';
 include 'EpiTwitter.php';
 include 'secret.php';
 include 'tj_class.php';
-include 'tj_db.php';
+include 'mysqldb.php';
 
 $twitterObj = new EpiTwitter($consumer_key, $consumer_secret);
 
@@ -13,22 +13,23 @@ $token = $twitterObj->getAccessToken();
 $twitterObj->setToken($token->oauth_token, $token->oauth_token_secret);
 $twitterInfo= $twitterObj->get_accountVerify_credentials();
 $twitterInfo->response;
-echo "Your twitter username is {$twitterInfo->screen_name} and your profile picture is <img src=\"{$twitterInfo->profile_image_url}\"> twitter follower {$twitterInfo->id}";
+echo "Your twitter username is {$twitterInfo->screen_name} and your profile picture is <img src=\"{$twitterInfo->profile_image_url}\"> twitter follower {$twitterInfo->id}<br />";
 
-$tj = new TJ_ACCOUNT();
+//$tj = new TJ_ACCOUNT();
 
 try {
-	$tj->init($twitterInfo);
-} catch(e) {
+	echo "Initiating TJ account <br />";
+	$_TweetJocky = new tj_account($twitterInfo,$token);
+} catch(Exception $e) {
 	echo "Error initiating TJ account <br />";
-	$tj->logEvent("init TJ","$twitterInfo->id","Error initiating the tj account");
+	$_TweetJocky->logEvent("init TJ","$twitterInfo->id","Error initiating TJ account $e");
 }
-
-if($tj->checkAccount($twitterInfo)) {
+$_TweetJocky->init_dump();
+/*if($tj->checkAccount($twitterInfo)) {
 	$tj->insertAccount($twitterInfo);
 } else {
 	$tj->updateAccount($twitterInfo);	
-}
+}*/
 /*echo "<br />POST<br />";
 var_dump($_POST);
 echo "<br />GET<br />";

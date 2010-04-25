@@ -1,13 +1,45 @@
 <?php
 
-class TJ_ACCOUNT {
+class tj_account {
 	var $tj_account_id;
 	var $tj_tw_token;
 	var $tj_tw_id;
 	var $tj_avatar;
 	var $tj_tw_name;
 	var $tj_tw_screenname;
-	var $tj_cadmus_api_key;
+	
+	function tj_account($twitterInfo,$token) {
+		//var $tj_account_id;
+		//var $tj_cadmus_api_key;
+		$this->tj_tw_token = $token;
+		$this->tj_tw_id = $twitterInfo->id;
+		$this->tj_avatar = $twitterInfo->profile_image_url;
+		$this->tj_tw_name = $twitterInfo->name;
+		$this->tj_tw_screenname = $twitterInfo->screen_name;
+		
+		$cr = $this->checkAccount($twitterInfo);
+		
+		if($cr < 0) {
+			//echo "Something went wrong <br />";
+		} elseif($cr == 0) {
+			//echo "New account <br />";
+			$ir = $this->insertAccount($twitterInfo);
+			if($ir == -1) {
+				//echo "ERROR: error inserting <br />";
+			} else {
+				//$this->logEvent("insertAccount","$twitterInfo->id","Error: unable to");
+				$this->tj_account_id = $ir;
+				//echo "New account inserted <br />";
+			}
+		} else {
+			$ur = $this->updateAccount($twitterInfo);
+			$this->tj_account_id = $ur; 
+			//echo "Should update here <br />";
+		}
+   	}
+   
+	
+	//var $tj_cadmus_api_key;
 	
 	/*
 	* function:		checkAccount()
@@ -19,18 +51,26 @@ class TJ_ACCOUNT {
 	*/
 	function checkAccount($twitterInfo) {
 		if($db = new MySQLDB) {
-			$query = "SELECT * FROM tblAccounts WHERE aTwitterID=".$twitterInfo->id;
-			$db->begin();
+			$query = "SELECT * FROM tblAccounts WHERE aTwitterID=".$twitterInfo->id.";";
+			//echo $query."<br />";
 			if($result = mysql_query($query)) {
 				if(mysql_num_rows($result) == 1) {
-					return true;
+					while($row = mysql_fetch_assoc($result)) {
+						return $row['aID'].",".$row['aTwitterID'];
+					}
+					//return $result;
 				} else if(mysql_num_rows($result) <= 0) {
-					return false;
+					//echo "Query returned empty result set <br />";
+					return 0;
 				} else {
+					//echo "checkAccount -> log1 <br />";
 					$this->logEvent("checkAccount","$twitterInfo->id","Duplicate entries in tblAccount");
+					return -1;
 				}
 			} else {
+				//echo "checkAccount -> log2 <br />";
 				$this->logEvent("checkAccount","admin","Query Error: ".mysql_error());
+				return -2;
 			}
 		}
 	}
@@ -44,15 +84,18 @@ class TJ_ACCOUNT {
 	*/
 	function insertAccount($twitterInfo) {
 		if($db = new MySQLDB) {
-			$query = "INSERT tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}')";
+			$cDate = date("Y-m-d H:i:s",time());
+			$query = "INSERT tblAccounts(aToken,aTwitterID,aCreated) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}','".$cDate."')";
+			//echo $query."<br />";
 			$db->begin();
 			if(mysql_query($query)) {
 				$db->commit();
-				return true;
+				//return true;
+				return mysql_insert_id();
 			} else {
 				$db->rollback();
 				$this->logEvent("insertAccount","$twitterInfo->id","Error:".mysql_error());
-				return false;
+				return -1;
 			}
 		}
 	}
@@ -66,23 +109,40 @@ class TJ_ACCOUNT {
 	*/
 	function updateAccount($twitterInfo) {
 		if($db = new MySQLDB) {
-			$query = "UPDATE tblAccounts(aToken,aTwitterID) VALUES('".$_GET['oauth_token']."','{$twitterInfo->id}')";
+			$query = "UPDATE tblAccounts SET aToken='".$_GET['oauth_token']."' WHERE aTwitterID=$twitterInfo->id;";
+			//echo $query;
 			$db->begin();
 			if(mysql_query($query)) {
 				$db->commit();
+				$query = "SELECT aID FROM tblAccounts WHERE aTwitterID=$twitterInfo->id;";
+				if($result = mysql_query($query)) {
+					$row = mysql_fetch_assoc($result);
+					return $row['aID'];
+				}
 				return true;
 			} else {
 				$db->rollback();
-				$this->logEvent("updateAccount","$twitterInfo->id","Error:".mysql_error());
+				$this->logEvent("updateAccount",'".$twitterInfo->id."',"Error:".mysql_error());
 				return false;
 			}
 		}
 	}
 	
+	/*
+	* function:		logEvent()
+	* parameters:	EpiTwitter -> twitterInfo
+	*				vachar -> type: what type of logging message
+	*				vachar -> id: for which twitter id
+	*				vachar -> message: what is the message
+	* description:	update Log errors and other abnormal events in the database
+	* return:		1 -> if query was successful
+	*				0 -> if query was unsuccessful, also calls logEvent();
+	*/
 	function logEvent($type, $id, $message) {
 	   if($db = new MySQLDB) {
 			$db->begin();
-			$query = "INSERT INTO tblLog(lType,l_T_id,lMessage) VALUES('$type','$id','$message');";
+			$query = "INSERT INTO tblLog(lType,aTwitterID,lMessage) VALUES('$type','$id','$message');";
+			//echo $query."<br />";
 			if(mysql_query($query)) {
 				$db->commit();
 				return 1;
@@ -95,14 +155,13 @@ class TJ_ACCOUNT {
 	   }
    }
    
-	function init($twitterInfo,$token) {
-		//var $tj_account_id;
-		//var $tj_cadmus_api_key;
-		$this->tj_tw_token = token;
-		$this->tj_tw_id = $twitterInfo->id;
-		$this->tj_avatar = $twitterInfo->profile_image_url;
-		$this->tj_tw_name = $twitterInfo->screen_name;
-		$this->tj_tw_screenname = $twitterInfo->screen_name;
+   function init_dump() {
+		echo "tj_account_id=>".$this->tj_account_id."<br />";
+		//echo "tj_tw_token=>".$this->tj_tw_token."<br />";
+		echo "tj_tw_id=>".$this->tj_tw_id."<br />";
+		echo "tj_avatar=>".$this->tj_avatar."<br />";
+		echo "tj_tw_name=>".$this->tj_tw_name."<br />";
+		echo "tj_tw_screenname=>".$this->tj_tw_screenname."<br />";
    }
 }
 
