@@ -52,7 +52,6 @@ class tj_account {
 	function checkAccount($twitterInfo) {
 		if($db = new MySQLDB) {
 			$query = "SELECT * FROM tblAccounts WHERE aTwitterID=".$twitterInfo->id.";";
-			//echo $query."<br />";
 			if($result = mysql_query($query)) {
 				if(mysql_num_rows($result) == 1) {
 					while($row = mysql_fetch_assoc($result)) {
@@ -60,15 +59,12 @@ class tj_account {
 					}
 					//return $result;
 				} else if(mysql_num_rows($result) <= 0) {
-					//echo "Query returned empty result set <br />";
 					return 0;
 				} else {
-					//echo "checkAccount -> log1 <br />";
 					$this->logEvent("checkAccount","$twitterInfo->id","Duplicate entries in tblAccount");
 					return -1;
 				}
 			} else {
-				//echo "checkAccount -> log2 <br />";
 				$this->logEvent("checkAccount","admin","Query Error: ".mysql_error());
 				return -2;
 			}

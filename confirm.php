@@ -1,11 +1,4 @@
 <?php
-include 'EpiCurl.php';
-include 'EpiOAuth.php';
-include 'EpiTwitter.php';
-include 'secret.php';
-include 'tj_class.php';
-include 'mysqldb.php';
-
 $twitterObj = new EpiTwitter($consumer_key, $consumer_secret);
 
 $twitterObj->setToken($_GET['oauth_token']);
@@ -24,7 +17,7 @@ try {
 	echo "Error initiating TJ account <br />";
 	$_TweetJocky->logEvent("init TJ","$twitterInfo->id","Error initiating TJ account $e");
 }
-$_TweetJocky->init_dump();
+//$_TweetJocky->init_dump();
 /*if($tj->checkAccount($twitterInfo)) {
 	$tj->insertAccount($twitterInfo);
 } else {
