@@ -13,6 +13,14 @@ div#container {
 	margin-left: -325px;
 }
 
+div.menu {
+	position: absolute;
+	top: 80px;
+	left: 50%;
+	width: 64px;
+	margin-left: -389px;
+}
+
 div.body {
 	width: 100%;
 	background: #C0DEED;
@@ -22,7 +30,7 @@ div.body {
 div.account_info {
 	margin: 5px;
 	border: 1px solid red;
-	background: none;
+	background-color: #C0DEED;
 }
 
 div.header {
@@ -77,4 +85,48 @@ p {
 	padding: 5px 10px;
 	line-height: 1.3;
 	text-align: justify;
+}
+
+.TJMenu {
+	list-style-type: none;
+     list-style-position:outside;
+     position: relative;
+     margin: 0;
+     padding: 0;
+}
+.TJmenu li{
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+    float: left;
+	width: 64px;
+	height: 32px;
+	margin-right: 0px;
+	background-image: url(../images/TJmenu.jpg);
+	background-repeat: no-repeat;
+}
+.TJmenu a{
+	display:block;
+	height:32px;
+	text-indent:-9999px;
+	outline:none;
+}
+#TJhome {
+	background-position:0px 0px;
+}
+#TJsettings {
+	background-position:-64px 0px;
+}
+#TJfaq {
+	background-position:-128px 0px;
+}
+#TJhome.active, #TJhome:hover {
+	background-position: 0 bottom;
+}
+#TJsettings.active, #TJsettings:hover{
+	background-position: -64px bottom;
+}
+#TJfaq.active, #TJfaq:hover {
+	background-position: -128px bottom;
 }

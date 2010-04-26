@@ -4,7 +4,7 @@ class tj_account {
 	var $tj_account_id;
 	var $tj_tw_token;
 	var $tj_tw_id;
-	var $tj_avatar;
+	var $tj_tw_avatar;
 	var $tj_tw_name;
 	var $tj_tw_screenname;
 	
@@ -13,7 +13,7 @@ class tj_account {
 		//var $tj_cadmus_api_key;
 		$this->tj_tw_token = $token;
 		$this->tj_tw_id = $twitterInfo->id;
-		$this->tj_avatar = $twitterInfo->profile_image_url;
+		$this->tj_tw_avatar = $twitterInfo->profile_image_url;
 		$this->tj_tw_name = $twitterInfo->name;
 		$this->tj_tw_screenname = $twitterInfo->screen_name;
 		
@@ -33,6 +33,7 @@ class tj_account {
 			}
 		} else {
 			$ur = $this->updateAccount($twitterInfo);
+			$lu = $this->getLastTJ($twitterInfo->id);
 			$this->tj_account_id = $ur; 
 			//echo "Should update here <br />";
 		}
@@ -40,6 +41,36 @@ class tj_account {
    
 	
 	//var $tj_cadmus_api_key;
+	
+	/*
+	* function:		getLastTJ()
+	* parameters:	varchar -> twitterInfo->id
+	* description:	Check for the last time TJ cycled on the account
+	* return:		date -> if the TJ account ran at least once
+	*				null -> if the account is new and never ran
+	*				call: logEvent() -> if errors during sql or more than 1 entry for the account exists
+	*/
+	function getLastTJ($id) {
+		if($db = new MySQLDB) {
+			$query = "SELECT aLastTJ FROM tblAccounts WHERE aTwitterID=".$id.";";
+			if($result = mysql_query($query)) {
+				if(mysql_num_rows($result) == 1) {
+					while($row = mysql_fetch_assoc($result)) {
+						return $row['aLastTJ'];
+					}
+					//return $result;
+				} else if(mysql_num_rows($result) <= 0) {
+					return 0;
+				} else {
+					$this->logEvent("checkAccount","$twitterInfo->id","Duplicate entries in tblAccount");
+					return -1;
+				}
+			} else {
+				$this->logEvent("checkAccount","admin","Query Error: ".mysql_error());
+				return -2;
+			}
+		}
+	}
 	
 	/*
 	* function:		checkAccount()
@@ -155,7 +186,7 @@ class tj_account {
 		echo "tj_account_id=>".$this->tj_account_id."<br />";
 		//echo "tj_tw_token=>".$this->tj_tw_token."<br />";
 		echo "tj_tw_id=>".$this->tj_tw_id."<br />";
-		echo "tj_avatar=>".$this->tj_avatar."<br />";
+		echo "tj_tw_avatar=>".$this->tj_tw_avatar."<br />";
 		echo "tj_tw_name=>".$this->tj_tw_name."<br />";
 		echo "tj_tw_screenname=>".$this->tj_tw_screenname."<br />";
    }
