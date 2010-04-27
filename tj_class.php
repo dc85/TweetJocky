@@ -7,6 +7,22 @@ class tj_account {
 	var $tj_tw_avatar;
 	var $tj_tw_name;
 	var $tj_tw_screenname;
+	var $tj_apiKey;
+	var $tj_aCycle;
+	var $set_sDefault;
+	var $set_tEnt;
+	var $set_tNews;
+	var $set_tBus;
+	var $set_tMusic;
+	var $set_tTech;
+	var $set_tHealth;
+	var $set_rUSAw;
+	var $set_rUSAc;
+	var $set_rUSAe;
+	var $set_rCANw;
+	var $set_rCANc;
+	var $set_rCANe;
+	
 	
 	function tj_account($twitterInfo,$token) {
 		//var $tj_account_id;
@@ -31,14 +47,74 @@ class tj_account {
 				$this->tj_account_id = $ir;
 				//echo "New account inserted <br />";
 			}
+			$this->loadSettings($ir);
 		} else {
 			$ur = $this->updateAccount($twitterInfo);
 			$lu = $this->getLastTJ($twitterInfo->id);
-			$this->tj_account_id = $ur; 
+			$this->tj_account_id = $ur;
+			$this->loadSettings($ur);
 			//echo "Should update here <br />";
 		}
    	}
    
+	function loadSettings($id) {
+		if($db = new MySQLDB) {
+			$query = "SELECT * FROM tblSettings WHERE aID=".$id." ORDER BY sID;";
+			if($result = mysql_query($query)) {
+				if(mysql_num_rows($result) == 1) {
+					while($row = mysql_fetch_assoc($result)) {
+						if(isset($row['apiKey'])) {
+							$this->tj_apiKey = $row['apiKey'];
+						} else {
+							$this->tj_apiKey = "";
+						}
+						$this->tj_aCycle = $row['aCycle'];
+						$this->set_sDefault = $row['sDefault'];
+						$this->set_tEnt = $row['tEnt'];
+						$this->set_tNews = $row['tNews'];
+						$this->set_tBus = $row['tBus'];
+						$this->set_tMusic = $row['tMusic'];
+						$this->set_tTech = $row['tTech'];
+						$this->set_tHealth = $row['tHealth'];
+						$this->set_rUSAw = $row['rUSAw'];
+						$this->set_rUSAc = $row['rUSAc'];
+						$this->set_rUSAe = $row['rUSAe'];
+						$this->set_rCANw = $row['rCANw'];
+						$this->set_rCANc = $row['rCANc'];
+						$this->set_rCANe = $row['rCANe'];
+					}
+					//return $result;
+				} else if(mysql_num_rows($result) <= 0) {
+					$create_query = "INSERT INTO tblSettings(aID) VALUES($id);";
+					if(mysql_query($create_query)) {
+						$this->tj_aCycle = 10800;
+						$this->set_sDefault = 1;
+						$this->set_tEnt = 0;
+						$this->set_tNews = 0;
+						$this->set_tBus = 0;
+						$this->set_tMusic = 0;
+						$this->set_tTech = 0;
+						$this->set_tHealth = 0;
+						$this->set_rUSAw = 0;
+						$this->set_rUSAc = 0;
+						$this->set_rUSAe = 0;
+						$this->set_rCANw = 0;
+						$this->set_rCANc = 0;
+						$this->set_rCANe = 0;
+					} else {
+						$this->logEvent("loadSettings","admin","Insert Query Error: ".mysql_error());
+						return -3;
+					}
+				} else {
+					$this->logEvent("loadSettings","$twitterInfo->id","Duplicate entries in tblAccount");
+					return -1;
+				}
+			} else {
+				$this->logEvent("loadSettings","admin","Query Error: ".mysql_error());
+				return -2;
+			}
+		}
+	}
 	
 	//var $tj_cadmus_api_key;
 	
@@ -189,6 +265,21 @@ class tj_account {
 		echo "tj_tw_avatar=>".$this->tj_tw_avatar."<br />";
 		echo "tj_tw_name=>".$this->tj_tw_name."<br />";
 		echo "tj_tw_screenname=>".$this->tj_tw_screenname."<br />";
+		echo "tj_apiKey=>".$this->tj_apiKey."<br />";
+		echo "tj_aCycle=>".$this->tj_aCycle."<br />";
+		echo "set_sDefault=>".$this->set_sDefault."<br />";
+		echo "set_tEnt=>".$this->set_tEnt."<br />";
+		echo "set_tNews=>".$this->set_tNews."<br />";
+		echo "set_tBus=>".$this->set_tBus."<br />";
+		echo "set_tMusic=>".$this->set_tMusic."<br />";
+		echo "set_tTech=>".$this->set_tTech."<br />";
+		echo "set_tHealth=>".$this->set_tHealth."<br />";
+		echo "set_rUSAw=>".$this->set_rUSAw."<br />";
+		echo "set_rUSAc=>".$this->set_rUSAc."<br />";
+		echo "set_rUSAe=>".$this->set_rUSAe."<br />";
+		echo "set_rCANw=>".$this->set_rCANw."<br />";
+		echo "set_rCANc=>".$this->set_rCANc."<br />";
+		echo "set_rCANe=>".$this->set_rCANe."<br />";
    }
 }
 

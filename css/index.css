@@ -28,8 +28,8 @@ div.body {
 }
 
 div.account_info {
-	margin: 5px;
-	border: 1px solid red;
+	border: none;
+	margin: 5px 30px;
 	background-color: #C0DEED;
 }
 
@@ -46,8 +46,11 @@ div.footer {
 }
 
 div.tab {
+	border: none;
 	background: #C0DEED;
 	padding: 20px;
+	margin: 5px 30px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 a.hpLink {
@@ -87,12 +90,38 @@ p {
 	text-align: justify;
 }
 
+label.settings {
+	font-family: Verdana, Geneva, sans-serif; 
+	color: #3587CA;	
+}
+
+label.setting {
+	font-family: Verdana, Geneva, sans-serif; 
+	color: black;
+	font-size: 12px;
+}
+
+a.set {
+	padding: 0 3px;
+	float: right;
+	color: #3587CA;
+	vertical-align: sub;
+	font-size: 11px;
+	text-decoration: none;
+	border: 1px solid #3587CA;
+}
+
+a.set:hover {
+	background-color: #3587CA;
+	color: white;
+}
+
 .TJMenu {
 	list-style-type: none;
-     list-style-position:outside;
-     position: relative;
-     margin: 0;
-     padding: 0;
+    list-style-position:outside;
+    position: relative;
+    margin: 0;
+    padding: 0;
 }
 .TJmenu li{
     display: block;
