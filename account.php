@@ -80,7 +80,7 @@ $(document).ready(function() {
     	<div class="tab" id="paneHome"> This is home </div>
         <div class="tab" id="paneSettings">
         	<label class="settings"><sub>BASIC</sub></label>
-            <a href="#" class="set">Save</a>
+            <a href="#" class="set" onclick="saveSettings()">Save</a>
             <hr />
             <center><table>
             	<tr>
@@ -112,7 +112,7 @@ $(document).ready(function() {
             </table></center>
             
             <label class="settings"><sub>ADVANCED</sub></label>
-            <a href="#" class="set">Save</a>
+            <a href="#" class="set" onclick="saveSettings()">Save</a>
             <hr />
             <center><table width="100%">
             <thead>
