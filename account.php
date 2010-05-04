@@ -85,12 +85,12 @@ $(document).ready(function() {
             <center><table>
             	<tr>
                 	<td><label class="setting">Cadmus API key: </label></td>
-                	<td><input type="text" size="40" />&nbsp;<img src="images/qmark.png" height="14px" width="14px" alt="What's this?" /></td>
+                	<td><input type="text" id="apiKey" size="40" />&nbsp;<img src="images/qmark.png" height="14px" width="14px" alt="What's this?" /></td>
                 </tr>
             	<tr>
                 	<td><label class="setting">Cycle: </label></td>
                     <td>
-                    	<select>
+                    	<select id="aCycle">
                         	<option value="900" disabled="disabled">15 minutes</option>
                         	<option value="1800" disabled="disabled">30 minutes</option>
                         	<option value="3600" disabled="disabled">1 hour</option>
@@ -105,7 +105,7 @@ $(document).ready(function() {
                 <tr>
                 	<td><label class="setting">Just the defaults: </label></td>
 					<td>
-                    	<input type="checkbox" id="set_default" <?php echo ($_TweetJocky->set_sDefault == "1") ? "checked" : "";?> />
+                    	<input type="checkbox" id="sDefault" <?php echo ($_TweetJocky->set_sDefault == "1") ? "checked" : "";?> />
 	                    &nbsp;<img src="images/qmark.png" height="14px" width="14px" alt="What's this?" />
                     </td>
                 </tr>
@@ -121,19 +121,19 @@ $(document).ready(function() {
             <tbody>
             	<tr>
                 	<td><label class="setting">Entertainment: </label></td>
-                    <td><input type="checkbox" id="set_entertainment" <?php echo ($_TweetJocky->set_tEnt == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tEnt" <?php echo ($_TweetJocky->set_tEnt == "1") ? "checked" : "";?> /></td>
                 	<td><label class="setting">News: </label></td>
-                    <td><input type="checkbox" id="set_news" <?php echo ($_TweetJocky->set_tNews == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tNews" <?php echo ($_TweetJocky->set_tNews == "1") ? "checked" : "";?> /></td>
                 	<td><label class="setting">Business: </label></td>
-                    <td><input type="checkbox" id="set_news" <?php echo ($_TweetJocky->set_tBus == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tBus" <?php echo ($_TweetJocky->set_tBus == "1") ? "checked" : "";?> /></td>
 				</tr>
                 <tr>
                 	<td><label class="setting">Music: </label></td>
-                    <td><input type="checkbox" id="set_music" <?php echo ($_TweetJocky->set_tMusic == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tMusic" <?php echo ($_TweetJocky->set_tMusic == "1") ? "checked" : "";?> /></td>
                 	<td><label class="setting">Technology: </label></td>
-                    <td><input type="checkbox" id="set_technology" <?php echo ($_TweetJocky->set_tTech == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tTech" <?php echo ($_TweetJocky->set_tTech == "1") ? "checked" : "";?> /></td>
                     <td><label class="setting">Health: </label></td>
-                    <td><input type="checkbox" id="set_technology" <?php echo ($_TweetJocky->set_tHealth == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tHealth" <?php echo ($_TweetJocky->set_tHealth == "1") ? "checked" : "";?> /></td>
                 </tr>
             </tbody>
             </table></center>
@@ -145,19 +145,19 @@ $(document).ready(function() {
             <tbody>
             	<tr>
                 	<td><label class="setting">Western USA: </label></td>
-                    <td><input type="checkbox" id="set_entertainment" <?php echo ($_TweetJocky->set_rUSAw == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tUSAw" <?php echo ($_TweetJocky->set_rUSAw == "1") ? "checked" : "";?> /></td>
                 	<td><label class="setting">Central USA: </label></td>
-                    <td><input type="checkbox" id="set_news" <?php echo ($_TweetJocky->set_rUSAc == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tUSAc" <?php echo ($_TweetJocky->set_rUSAc == "1") ? "checked" : "";?> /></td>
                 	<td><label class="setting">Eastern USA: </label></td>
-                    <td><input type="checkbox" id="set_news" <?php echo ($_TweetJocky->set_rUSAe == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tUSAe" <?php echo ($_TweetJocky->set_rUSAe == "1") ? "checked" : "";?> /></td>
 				</tr>
                 <tr>
                 	<td><label class="setting">Western Canada: </label></td>
-                    <td><input type="checkbox" id="set_music" <?php echo ($_TweetJocky->set_rCANw == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tCANw" <?php echo ($_TweetJocky->set_rCANw == "1") ? "checked" : "";?> /></td>
                 	<td><label class="setting">Central Canada: </label></td>
-                    <td><input type="checkbox" id="set_technology" <?php echo ($_TweetJocky->set_rCANc == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tCANc" <?php echo ($_TweetJocky->set_rCANc == "1") ? "checked" : "";?> /></td>
                     <td><label class="setting">Eastern Canada: </label></td>
-                    <td><input type="checkbox" id="set_technology" <?php echo ($_TweetJocky->set_rCANe == "1") ? "checked" : "";?> /></td>
+                    <td><input type="checkbox" id="tCANe" <?php echo ($_TweetJocky->set_rCANe == "1") ? "checked" : "";?> /></td>
                 </tr>
             </tbody>
             </table></center>
