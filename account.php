@@ -58,6 +58,7 @@ $(document).ready(function() {
   <div class="menu">
 	  <ul class="TJmenu">
 		<li id="TJhome"><a href="#" onclick="changePane('TJhome')">Home</a></li>
+		<li id="TJtweets"><a href="#" onclick="changePane('TJtweets')">Tweets</a></li>
 		<li id="TJsettings"><a href="#" onclick="changePane('TJsettings')">Settings</a></li>
 		<li id="TJfaq"><a href="#" onclick="changePane('TJfaq')">FAQ</a></li>
       </ul>

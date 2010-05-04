@@ -17,8 +17,8 @@ div.menu {
 	position: absolute;
 	top: 80px;
 	left: 50%;
-	width: 64px;
-	margin-left: -389px;
+	width: 80px;
+	margin-left: -403px;
 }
 
 div.body {
@@ -129,33 +129,39 @@ a.set:hover {
     padding: 0;
     cursor: pointer;
     float: left;
-	width: 64px;
-	height: 32px;
+	width: 86px;
+	height: 43px;
 	margin-right: 0px;
-	background-image: url(../images/TJmenu.jpg);
+	background-image: url(../images/menu.png);
 	background-repeat: no-repeat;
 }
 .TJmenu a{
 	display:block;
-	height:32px;
+	height:43px;
 	text-indent:-9999px;
 	outline:none;
 }
 #TJhome {
 	background-position:0px 0px;
 }
+#TJtweets {
+	background-position:-344px 0px;
+}
 #TJsettings {
-	background-position:-64px 0px;
+	background-position:-86px 0px;
 }
 #TJfaq {
-	background-position:-128px 0px;
+	background-position:-172px 0px;
 }
 #TJhome.active, #TJhome:hover {
-	background-position: 0 bottom;
+	background-position: 0px bottom;
+}
+#TJtweets.active, #TJtweets:hover {
+	background-position: -344px bottom;
 }
 #TJsettings.active, #TJsettings:hover{
-	background-position: -64px bottom;
+	background-position: -86px bottom;
 }
 #TJfaq.active, #TJfaq:hover {
-	background-position: -128px bottom;
+	background-position: -172px bottom;
 }
